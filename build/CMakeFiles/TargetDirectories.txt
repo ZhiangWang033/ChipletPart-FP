@@ -1,0 +1,3 @@
+/home/fetzfs_projects/OpenROAD/chiplet/ChipletPart-FP/build/CMakeFiles/rebuild_cache.dir
+/home/fetzfs_projects/OpenROAD/chiplet/ChipletPart-FP/build/CMakeFiles/edit_cache.dir
+/home/fetzfs_projects/OpenROAD/chiplet/ChipletPart-FP/build/CMakeFiles/exe.dir

@@ -1,0 +1,1 @@
+/home/tool/gcc/gcc-9.3.0/bin/x86_64-pc-linux-gnu-g++     CMakeFiles/exe.dir/src/floorplan.cpp.o CMakeFiles/exe.dir/src/main.cpp.o  -o exe  -lpthread 

@@ -151,6 +151,7 @@ class SACore
 {
   public:
     SACore(
+        int worker_id,
         std::vector<Chiplet> chiplets, 
         std::vector<BundledNet> bundled_nets,
         // penalty parameters
@@ -168,6 +169,11 @@ class SACore
         int num_perturb_per_step,
         float cooling_rate,
         unsigned seed);                                
+ 
+ 
+    int getWorkerId() const {
+      return worker_id_;
+    }
 
     void run();
     bool isValid() const;
@@ -222,7 +228,15 @@ class SACore
       return cooling_rate_;
     }
 
-    void checkViolation();
+    bool checkViolation();
+    void setTemp(float temp) {
+      init_temperature_ = temp;
+    }
+
+    void setMacros(const std::vector<Chiplet>& macros) {
+      macros_ = macros;
+      pre_macros_ = macros;
+    }
 
   private:
     void calPenalty();
@@ -275,6 +289,7 @@ class SACore
     float init_temperature_ = 1.0;
     float min_temperature_ = 1e-10;
     unsigned seed_ = 0;
+    int worker_id_ = 0;
 
     // seed for reproduciabilty
     std::mt19937 generator_;

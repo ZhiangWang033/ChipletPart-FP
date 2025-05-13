@@ -45,6 +45,7 @@
 
 // Class SACore
 SACore::SACore(
+    int worker_id,
     std::vector<Chiplet> chiplets,
     std::vector<BundledNet> nets,
     // penalty parameters
@@ -63,6 +64,7 @@ SACore::SACore(
     float cooling_rate,
     unsigned seed)
 {
+  worker_id_ = worker_id;
   // penalty parameters
   area_penalty_weight_ = area_penalty_weight;
   package_penalty_weight_ = package_penalty_weight;
@@ -809,7 +811,7 @@ float SACore::calNetPenalty() const
 }
 
 
-void SACore::checkViolation()
+bool SACore::checkViolation()
 {
   for (const auto& net : nets_) {
     /*
@@ -853,8 +855,11 @@ void SACore::checkViolation()
                 << "net_length = " << penalty / net.weight << "  "
                 << "reach = " << net.reach << "  "
                 << std::endl;
-    }        
+      return true;
+    }  
   }
+
+  return false;
 }
 
 
@@ -1055,9 +1060,9 @@ void SACore::run()
   float pre_cost = cost;
   float delta_cost = 0.0;
   int step = 1;
-  float temperature = init_temperature_;
-  const float t_factor
-      = std::exp(std::log(min_temperature_ / init_temperature_) / max_num_step_);
+  //float temperature = init_temperature_;
+  //const float t_factor
+  //    = std::exp(std::log(min_temperature_ / init_temperature_) / max_num_step_);
   
   auto startTimeStamp = std::chrono::high_resolution_clock::now();
   
@@ -1069,16 +1074,16 @@ void SACore::run()
       delta_cost = cost - pre_cost;
       const float num = distribution_(generator_);
       const float prob
-          = (delta_cost > 0.0) ? exp((-1) * delta_cost / temperature) : 1;
+          = (delta_cost > 0.0) ? exp((-1) * delta_cost / init_temperature_) : 1;
       if (num < prob) {
         pre_cost = cost;
       } else {
         restore();
       }
     };
-    temperature *= t_factor;
+    init_temperature_ *= cooling_rate_;
     cost_list_.push_back(pre_cost);
-    T_list_.push_back(temperature);
+    T_list_.push_back(init_temperature_);
     // increase step
     step++;
     if (false) {

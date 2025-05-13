@@ -94,6 +94,8 @@ exe_EXTERNAL_OBJECTS =
 exe: CMakeFiles/exe.dir/src/floorplan.cpp.o
 exe: CMakeFiles/exe.dir/src/main.cpp.o
 exe: CMakeFiles/exe.dir/build.make
+exe: /home/tool/gcc/gcc-9.3.0/lib64/libgomp.so
+exe: /lib64/libpthread.so
 exe: CMakeFiles/exe.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/fetzfs_projects/OpenROAD/chiplet/ChipletPart-FP/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/exe.dir/link.txt --verbose=$(VERBOSE)
